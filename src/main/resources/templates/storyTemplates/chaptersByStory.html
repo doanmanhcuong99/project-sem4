@@ -1,0 +1,51 @@
+<div class="row" xmlns:th="http://www.w3.org/1999/xhtml">
+    <div class="col">
+        <a th:href="@{/chapters/create/{storyId}(storyId=${story.id})}" class="btn btn-primary">Thêm chap new </a>
+        <h5>Chapter of the story <span th:text="${story.title}"></span></h5>
+
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Chap</th>
+                <th>Content</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="chapter : ${chapters}">
+                <td><a th:href="@{'/chapter/show/' + ${chapter.id}}" th:text="${chapter.title}">Chap</a></td>
+                <td th:text="${chapter.content}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <!-- Table End-->
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <!-- movies pagination -->
+        <nav aria-label="Pagination" th:if="${chapters.totalPages gt 0}">
+            <ul class="pagination justify-content-center font-weight-bold">
+                <li class="page-item" th:classappend="${chapters.number eq 0} ? 'disabled'">
+                    <a class="page-link"
+                       th:href="@{/story/chapters/{storyId}?page={id}(storyId=${story.id},id=${chapters.number lt 2 ? 1 : chapters.number})}"
+                       aria-label="Previous" title="Previous Page" data-toggle="tooltip">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item" th:classappend="${i eq chapters.number + 1} ? 'active'"
+                    th:each="i : ${#numbers.sequence( 1, chapters.totalPages, 1)}">
+                    <a class="page-link" th:href="@{/story/chapters/{storyId}?page={id}(storyId=${story.id},id=${i})}"
+                       th:text="${i}" th:title="${'Page '+ i}" data-toggle="tooltip"></a>
+                </li>
+                <li class="page-item" th:classappend="${chapters.number + 1 eq chapters.totalPages} ? 'disabled'">
+                    <a class="page-link"
+                       th:href="@{/story/chapters/{storyId}?page={id}(storyId=${story.id},id=${chapters.number + 2})}"
+                       aria-label="Next" title="Next Page" data-toggle="tooltip">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+</div>

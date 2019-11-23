@@ -1,0 +1,127 @@
+<div class="card" xmlns:th="http://www.w3.org/1999/xhtml">
+    <div class="header">
+        <h4 class="title">Comics create By User
+        <span th:text="${username}"></span>
+        </h4>
+        <p class="category">shows all available comics</p>
+    </div>
+    <div class="content table-responsive table-full-width">
+        <div class="row">
+            <div class="col-sm-6">
+                <form class="form-inline" action="#" th:action="@{/story/search}" method="get">
+                    <input class="form-control mr-sm-2" type="search" name="term" placeholder="Search by name ..."/>
+                    <button class="btn btn-primary" type="submit">
+                        <i class="fa fa-search"></i> Search
+                    </button>
+                </form>
+            </div>
+        </div>
+        <th:block th:if="${#lists.isEmpty(stories)}">
+            <h5>No contacts</h5>
+        </th:block>
+        <th:block th:unless="${#lists.isEmpty(stories)}">
+            <table class="table table-striped">
+                <thead>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>CoverImg</th>
+                <th>Category</th>
+                <th>Status</th>
+                <th class="text-center">Action</th>
+
+
+                <th></th>
+                <th></th>
+                <th></th>
+                </thead>
+                <tbody>
+                <tr th:each="story : ${stories}">
+                    <td th:text="${story.id}"></td>
+                    <td th:text="${story.title}"></td>
+                    <td th:text="${story.director}"></td>
+                    <td>
+                        <div class="container">
+                            <img th:src="|/images/${story.getThumbnail()}|" alt="green-parrot-picture"/>
+                        </div>
+                    </td>
+                    <td>
+                        <th:block th:each="category : ${story.categories}">
+                            <span th:text="'|'+${category.name} "></span>
+                        </th:block>
+                    </td>
+                    <td>
+                        <div th:if="${story.status == T(com.project.cms.entity.Status).OPEN}">
+                            <a class="dropdown-item"
+                               th:href="@{/story/{id}/{action}(id=${story.id}, action='close')}">CLOSE</a>
+                        </div>
+                        <div th:if="${story.status == T(com.project.cms.entity.Status).CLOSED}">
+                            <a class="dropdown-item"
+                               th:href="@{/story/{id}/{action}(id=${story.id}, action='open')}">OPEN</a>
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <a th:href="@{'/story/show/' + ${story.id}}" class="btn btn-primary btn-xs"><i
+                                class="fa fa-search"></i></a>
+                        <a th:href="@{'/story/' + ${story.id}}" class="btn btn-default btn-xs"><i
+                                class="fa fa-pencil-square-o"></i></a>
+                        <a th:href="@{'/story/delete/' + ${story.id}}" class="btn btn-danger btn-xs"><i
+                                class="fa fa-trash-o"></i></a>
+                        <a th:href="@{'/story/chapters/'+ ${story.id}}" class="btn btn-default btn-xs"><i
+                                class="fa fa-list"></i></a>
+                    </td>
+
+                </tr>
+                </tbody>
+            </table>
+        </th:block>
+
+
+        <nav aria-label="Pagination" th:if="${stories.totalPages gt 0}">
+            <ul class="pagination justify-content-center font-weight-medium">
+                <li class="page-item" th:classappend="${stories.number eq 0} ? 'disabled'">
+                    <a class="page-link svg-icon"
+                       th:href="@{/stories?page={id}(id=${stories.number lt 2 ? 1 : stories.number})}"
+                       aria-label="Previous"
+                       title="Previous Page" rel="tooltip">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item" th:classappend="${i eq stories.number + 1} ? 'active'"
+                    th:each="i : ${#numbers.sequence( stories.number + 1, stories.totalPages > 3 + stories.number ? stories.number + 3 : stories.totalPages, 1)}">
+                    <a class="page-link" th:href="@{/stories?page={id}(id=${i})}" th:text="${i}"
+                       th:title="${'Page '+ i}"
+                       rel="tooltip"></a>
+                </li>
+                <li class="page-item disabled" th:if="${stories.number + 3 < stories.totalPages}">
+                    <a class="page-link svg-icon" href="#">
+                        <span aria-hidden="true">&middot;&middot;&middot;</span>
+                    </a>
+                </li>
+                <li class="page-item" th:classappend="${stories.number + 1 eq stories.totalPages} ? 'disabled'">
+                    <a class="page-link svg-icon" th:href="@{/stories?page={id}(id=${stories.number + 2})}"
+                       aria-label="Next"
+                       title="Next Page" rel="tooltip">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+<style>
+    .container {
+        max-width: max-content;
+    }
+
+    img {
+        /*width: 199px;
+        height: 294px;*/
+        width: 80px;
+        height: 100px;
+        border-radius: 4%;
+        -moz-border-radius: 4%;
+        -webkit-border-radius: 4%;
+    }
+
+</style>

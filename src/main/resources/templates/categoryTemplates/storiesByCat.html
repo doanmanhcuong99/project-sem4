@@ -1,0 +1,30 @@
+<div class="card" xmlns:th="http://www.w3.org/1999/xhtml">
+    <div class="header">
+        <h4 class="title">Comics for <span th:text="${category.name}"></span></h4>
+        <p class="category">shows all available comics</p>
+    </div>
+
+    <div class="content table-responsive table-full-width">
+        <table class="table table-striped">
+            <thead>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            </thead>
+            <tbody>
+            <tr th:each="story : ${stories}">
+                <td th:text="${story.id}"></td>
+                <td th:text="${story.title}"></td>
+                <td th:text="${story.director}"></td>
+                <td><a th:href="@{'/story/show/' + ${story.id}}" class="btn btn-primary">View</a></td>
+                <td><a th:href="@{'/story/' + ${story.id}}" class="btn btn-default">Edit</a></td>
+                <td><a th:href="@{'/story/delete/' + ${story.id}}" class="btn btn-danger">Delete</a></td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>

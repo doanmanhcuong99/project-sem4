@@ -1,0 +1,22 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div th:fragment="posts">
+    <div class="starter-template panel" th:each="p : ${stories}">
+        <div class="panel-heading">
+            <h1><a th:text="${p.title}" th:href="@{'/story/show/' + ${p.id}}">Title</a></h1>
+            <div>
+                <time th:text="${#dates.format(p.createdAt, 'dd/MM/yyyy - HH:mm')}"></time>
+            </div>
+            <div><a th:text="${p.user.username}" th:href="@{'/home/' + ${p.user.username}}">User</a>
+            </div>
+        </div>
+        <h3 class="panel-body" th:text="${p.description}">Body</h3>
+        <br></br>
+    </div>
+</div>
+</body>
+</html>
+

@@ -1,0 +1,140 @@
+<div class="card" xmlns:th="http://www.w3.org/1999/xhtml">
+    <div class="header">
+        <h4 th:text="${story.title}" class="title">Edit Book</h4>
+        <p class="category">Details</p>
+    </div>
+    <div class="container">
+        <!-- <div class="jumbotron">
+             <h1 th:text="${user.name} + '\'s Blog'">Username Blog</h1>
+         </div>-->
+        <div class="row">
+            <div class=" col-md-8">
+                <h1 class="title-detail">Tôi thăng cấp một mình</h1>
+                <time th:text="${#dates.format(story.createdAt, 'dd/MM/yyyy - HH:mm')}">
+                </time>
+                <div>
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <img th:src="|/images/${story.getThumbnail()}|" alt="green-parrot-picture"/>
+                        </div>
+                        <div class="col-xs-8 col-info">
+                            <ul style="list-style-type: none;">
+                                <li>
+                                    <p class="name col-xs-4">
+                                        <i class="fa fa-user">
+                                        </i> Tác giả
+                                    </p>
+                                    <p class="col-xs-8"><a
+                                            th:text="${story.director}"></a></p>
+                                </li>
+                                <li>
+                                    <p class="name col-xs-4">
+                                        <i class="fa fa-rss">
+                                        </i> Tình trạng
+                                    </p>
+                                    <p class="col-xs-8">Đang tiến hành</p>
+                                </li>
+                                <li>
+                                    <p class="name col-xs-4">
+                                        <i class="fa fa-tags">
+                                        </i> Thể loại
+                                    </p>
+                                    <p class="col-xs-8">
+                                        <th:block th:each="category : ${story.categories}">
+                                            <a th:text="${category.name}"></a> -
+                                        </th:block>
+                                    </p>
+                                </li>
+                                <li>
+                                    <p class="name col-xs-4">
+                                        <i class="fa fa-eye">
+                                        </i> Lượt xem
+                                    </p>
+                                    <p class="col-xs-8">22.456.491</p>
+                                </li>
+                            </ul>
+                            <div class="row rating">
+                                <div class="col-sm-6">
+                                    <div class="star" data-id="19997" data-rating="4.3" data-allowrating="true">
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <a> <span th:text="${story.title}"></span></a>
+                                <!--                       </a> Xếp hạng: <span ><span ><span
+                                                           >4.3</span>/<span>5</span></span></span> -
+                                                       <span >25511</span> Lượt đánh giá.
+                                                   </div>
+                                               &lt;!&ndash;    <div class="follow">
+                                 <span>
+                                   <b>131.300</b> Người Đã Theo Dõi</span>
+                                                   </div>&ndash;&gt;
+                                                 &lt;!&ndash;  <div class="read-action mrt10">
+                                                       <a class="btn btn-warning mrb5"
+                                                          href="http://www.nettruyen.com/truyen-tranh/toi-thang-cap-mot-minh/chap-0/418184">
+                                                           Đọc từ đầu</a>
+                                                       <a class="btn btn-warning mrb5"
+                                                          href="http://www.nettruyen.com/truyen-tranh/toi-thang-cap-mot-minh/chap-93/520271">
+                                                           Đọc mới nhất</a>
+                                                   </div>&ndash;&gt;-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="detail-content">
+                        <h3 class="list-title">
+                            <i class="fa fa-file-text-o">
+                            </i> Nội dung
+                        </h3>
+                        <p th:text="${story.description}"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2>Comments:</h2>
+    <div class="well" th:each="comment : ${story.comments}">
+        <span th:text="'Created: ' + ${#dates.format(comment.createDate, 'dd-MMM-yyyy')} + ' by '">Created by</span>
+        <span><a th:text="${comment.user.username}" ></a></span>
+        <h5 th:text="${comment.content}">Body</h5>
+        <div class="child-comment" th:if="comment.children != null"
+             th:each="c : ${comment.children}">
+            <span class="title" th:text="${c.user.username.toUpperCase()}"></span>
+            <blockquote th:text="${c.content}"></blockquote>
+        </div>
+        <div>
+            <form th:action="@{'/createChild/{id}'(id=${comment.id})}" th:object="${comment}" method="post">
+                <input type="hidden" name="commentId" th:value="${comment.id}">
+                <input type="hidden" name="post" th:value="${story.id}">
+                <input type="hidden" th:field="*{story}"/>
+                <input type="hidden" th:field="*{user}"/>
+                <textarea th:field="*{content}"/>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+    </div>
+    <!--Leave a comment button-->
+    <!--Only if authenticated-->
+    <div sec:authorize="isAuthenticated()">
+        <div class="row" style="margin-top:20px">
+            <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+                <form autocomplete="off" action="#" th:action="@{'/createComment/{id}'(id=${story.id})}"
+                      th:object="${comment}" method="post" role="form">
+                    <h2 class="text-center">Write new comment</h2>
+                    <div class="form-group">
+                        <label th:if="${#fields.hasErrors('content')}" th:errors="*{content}"
+                               class="alert alert-danger"></label>
+                        <textarea th:field="*{content}"
+                                  placeholder="Body" class="form-control input-lg"/>
+                    </div>
+                    <input type="hidden" th:field="*{story}"/>
+                    <input type="hidden" th:field="*{user}"/>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block">Comment</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

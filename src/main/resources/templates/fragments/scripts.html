@@ -1,0 +1,47 @@
+<div class="sidebar" data-background-color="white" data-active-color="danger" xmlns:th="http://www.w3.org/1999/xhtml">
+
+    <!--
+        Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
+        Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"
+    -->
+    <div class="sidebar-wrapper">
+        <div class="logo">
+            <a th:href="@{/stories}" class="simple-text">
+                ADMIN COMICS
+            </a>
+        </div>
+
+        <ul class="nav">
+            <li>
+                <a th:href="@{/stories}">
+                    <i class="ti-book"></i>
+                    <p>Danh sách truyện</p>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/story/create}">
+                    <i class="ti-plus"></i>
+                    <p>Thêm Truyện</p>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/categories}">
+                    <i class="ti-folder"></i>
+                    <p>Danh sách thể loại</p>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/category/create}">
+                    <i class="ti-plus"></i>
+                    <p>Thêm thể loại</p>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/chapters}">
+                    <i class="ti-folder"></i>
+                    <p>Danh sách chương</p>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

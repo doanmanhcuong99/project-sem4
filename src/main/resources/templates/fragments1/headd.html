@@ -1,0 +1,15 @@
+<head>
+    <div th:fragment="header-css">
+
+        <title>Spring Boot Blog</title>
+
+        <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
+              th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"
+              rel="stylesheet" media="screen"/>
+
+        <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
+                th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
+
+        <link rel="stylesheet" th:href="@{css/main.css}"/>
+    </div>
+</head>

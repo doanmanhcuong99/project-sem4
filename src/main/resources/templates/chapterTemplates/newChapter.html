@@ -1,0 +1,30 @@
+<div class="card" xmlns:th="http://www.w3.org/1999/xhtml" >
+    <div class="header">
+        <h4 class="title">Add new Chapter</h4>
+        <p class="category">fill out & click save</p>
+    </div>
+
+    <div class="content">
+        <form th:object="${chapter}" th:action="@{/chapters/create/{storyId}(storyId=${storyIds})}" th:method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <input type="hidden" class="form-control" th:field="*{id}"/>
+
+            </div>
+            <div class="form-group">
+                <label for="title">Chap</label>
+                <input type="text" class="form-control" id="title" aria-describedby="title" th:field="*{title}" playeholder="Harry Potter and the Deathly Hollows">
+            </div>
+            <div class="form-group">
+                <label for="author">Content</label>
+                <input type="text" class="form-control" id="author" aria-describedby="author" th:field="*{content}" playeholder="Joanne K. Rowling"/>
+            </div>
+            <div class="form-group">
+                <label for="upload">Choose Images</label>
+                <input type="file"  class="form-control" id="upload" aria-describedby="author" name="my-file" multiple="multiple" playeholder="Joanne K. Rowling"/>
+            </div>
+
+
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+</div>

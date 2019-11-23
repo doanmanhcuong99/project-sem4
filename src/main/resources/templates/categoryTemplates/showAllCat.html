@@ -1,0 +1,57 @@
+<div class="card" xmlns:th="http://www.w3.org/1999/xhtml">
+    <div class="header">
+        <h4 class="title">Categories</h4>
+        <p class="category">shows all Categories</p>
+    </div>
+
+    <div class="content table-responsive table-full-width">
+        <table class="table table-striped">
+            <thead>
+            <th>ID</th>
+            <th>Name</th>
+            <th></th>
+            <th></th>
+            </thead>
+            <tbody>
+            <tr th:remove="all">
+                <td>123</td>
+                <td>Fantasy</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr th:each="category : ${categories}">
+                <td th:text="${category.id}"></td>
+                <td th:text="${category.name}"></td>
+                <td th:text="${category.description}"></td>
+                <td><a th:href="@{'/category/stories/' + ${category.id}}" class="btn btn-primary">View</a></td>
+                <td><a th:href="@{'/category/' + ${category.id}}" class="btn btn-default">Edit</a></td>
+                <td><a th:href="@{'/category/delete/' + ${category.id}}" class="btn btn-danger">Delete</a></td>
+            </tr>
+            </tbody>
+        </table>
+        <nav aria-label="Pagination" th:if="${categories.totalPages gt 0}">
+          <ul class="pagination justify-content-center font-weight-bold">
+              <li class="page-item" th:classappend="${categories.number eq 0} ? 'disabled'">
+                  <a class="page-link"
+                     th:href="@{/categories?page={id}(id=${categories.number lt 2 ? 1 : categories.number})}"
+                     aria-label="Previous" title="Previous Page" data-toggle="tooltip">
+                      <span aria-hidden="true">&laquo;</span>
+                  </a>
+              </li>
+              <li class="page-item" th:classappend="${i eq categories.number + 1} ? 'active'"
+                  th:each="i : ${#numbers.sequence( 1, categories.totalPages, 1)}">
+                  <a class="page-link" th:href="@{/categories?page={id}(id=${i})}" th:text="${i}"
+                     th:title="${'Page '+ i}" data-toggle="tooltip"></a>
+              </li>
+              <li class="page-item" th:classappend="${categories.number + 1 eq categories.totalPages} ? 'disabled'">
+                  <a class="page-link"
+                     th:href="@{/categories?page={id}(id=${categories.number + 2})}"
+                     aria-label="Next" title="Next Page" data-toggle="tooltip">
+                      <span aria-hidden="true">&raquo;</span>
+                  </a>
+              </li>
+          </ul>
+      </nav>
+
+    </div>
+</div>

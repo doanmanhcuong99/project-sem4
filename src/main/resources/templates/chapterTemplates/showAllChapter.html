@@ -1,0 +1,46 @@
+<div class="card" xmlns:th="http://www.w3.org/1999/xhtml">
+    <div class="header">
+        <h4 class="title">Chapter</h4>
+        <p class="category">shows all available comics</p>
+    </div>
+    <div class="content table-responsive table-full-width">
+        <form class="form-inline" action="#" th:action="@{/chapter/search}" method="get">
+            <input class="form-control mr-sm-2" type="search" name="hh" placeholder="Search by name ..." />
+            <button class="btn btn-primary" type="submit">
+                <i class="fa fa-search"></i> Search
+            </button>
+        </form>
+        <table class="table table-striped">
+            <thead>
+            <th>ID</th>
+            <th>Chap</th>
+            <th>Content</th>
+            <th>Action</th>
+            <th>Images</th>
+
+            <th></th>
+            </thead>
+            <tbody>
+            <tr th:each="chapter : ${chapters}">
+                <td th:text="${chapter.id}"></td>
+                <td th:text="${chapter.title}"></td>
+                <td th:text="${chapter.content}"></td>
+                <td>
+                    <div th:if="${chapter.statusChap == T(com.project.cms.entity.Status).OPEN}">
+                        <a class="dropdown-item"
+                           th:href="@{/chapter/{id}/{action}(id=${chapter.id}, action='closeChap')}">CLOSE</a>
+                    </div>
+                    <div th:if="${chapter.statusChap == T(com.project.cms.entity.Status).CLOSED}">
+                        <a class="dropdown-item"
+                           th:href="@{/chapter/{id}/{action}(id=${chapter.id}, action='openChap')}">OPEN</a>
+                    </div>
+                </td>
+                <td><img th:each="image : ${chapter.getUploadFile()}"
+                         th:src="|/images/${image}|"
+                         style="with:75px ; height: 75px;border: 1px solid red ;margin-right: 50px"  alt=""></td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

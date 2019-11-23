@@ -1,0 +1,34 @@
+<div class="card" xmlns:th="http://www.w3.org/1999/xhtml">
+    <div class="header">
+        <h4 th:text="${chapter.title}" class="title"></h4>
+    </div>
+    <div class="content">
+      <!--  <p th:text="${chapter.content}"></p>
+        <img th:each="image : ${chapter.getUploadFile()}"
+             th:src="|/images/${image}|"
+             class="img-fluid"
+             style="border: 1px solid red ;margin-bottom: 20px" alt="">-->
+        <div class="container">
+            <img th:each="image : ${chapter.getUploadFile()}"
+                 th:src="|/images/${image}|"
+                 class="img-fluid"alt="green-parrot-picture"/>
+        </div>
+    </div>
+</div>
+<style>
+    .container {
+        max-width: max-content;
+    }
+
+    img {
+        /*width: 199px;
+        height: 294px;*/
+        width: 720px;
+        height: 100%;
+        border-radius:1%;
+        -moz-border-radius:1%;
+        -webkit-border-radius:1%;
+        margin-left: 105px ;
+    }
+
+</style>

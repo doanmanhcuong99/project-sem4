@@ -1,0 +1,75 @@
+<div class="card" xmlns:th="http://www.w3.org/1999/xhtml">
+    <div class="header">
+        <h4 class="title">Add new Story</h4>
+        <p class="category">fill out & click save</p>
+    </div>
+    <!--Show this info message only if posted successfully-->
+    <div class="alert alert-info" th:if="${successMessage}" th:utext="${successMessage}"></div>
+
+
+    <div class="content">
+        <form th:object="${story}" th:action="@{/story}" th:method="post" enctype="multipart/form-data">
+
+            <div class="form-group">
+                <input type="hidden" class="form-control" th:field="*{id}"/>
+            </div>
+            <div class="form-group">
+                <input type="hidden" class="form-control" th:field="*{user}"/>
+            </div>
+            <div class="form-group">
+                <label for="title">Tên truyện </label>
+                <label th:if="${#fields.hasErrors('title')}" th:errors="*{title}"
+                       class="alert alert-danger"></label>
+                <input type="text" class="form-control" id="title" aria-describedby="title" th:field="*{title}"
+                       playeholder="Harry Potter and the Deathly Hollows">
+            </div>
+            <div class="form-group">
+                <label for="title">Tên khác </label>
+                <input type="text" class="form-control" id="anotherName" aria-describedby="title"
+                       th:field="*{anotherName}" playeholder="Harry Potter ">
+            </div>
+            <div class="form-group">
+                <label for="author">ảnh đại diện</label>
+                <input type="file" name="my-file" multiple="multiple" class="form-control" aria-describedby="thumbnail"
+                       id="author">
+                <!-- <input type="text" class="form-control" aria-describedby="author" th:field="*{director}" playeholder="Joanne K. Rowling"/>-->
+            </div>
+            <div class="form-group" >
+                <label for="author"></label>
+                <select name="folder"  style="visibility:hidden;">
+                    <option value="ImgCoverStory/">StoryCover</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="author">Tác giả</label>
+                <input type="text" class="form-control" aria-describedby="author" th:field="*{director}"
+                       playeholder="Joanne K. Rowling"/>
+            </div>
+            <div class="form-group">
+                <label for="category">Thể loại</label>
+                <div class="form-control" th:each="category : ${categories}">
+                    <label class="col-sm-2"><input id="category"  style="margin-left: 0px;" type="checkbox" th:field="*{categories}" th:value="${category.id}" /><span th:text="${category.name}"></span></label>
+                </div>
+            </div>
+            <!--  <div class="form-group">
+                  <label for="category">Category</label>
+                  <select id="category" class="form-control" th:field="*{categories}" multiple="multiple">
+                      <option th:each="category : ${categories}" th:text="${category.name}" th:value="${category.id}"></option>
+                  </select>
+              </div>-->
+            <!--  <div class="form-group">
+                  <label for="status">Status:</label>
+                  <select id="status" class="form-control" th:field="*{status}">
+                      <option th:each="status : ${statusList}" th:text="${status}" th:value="${status}"></option>
+                  </select>
+              </div>-->
+            <div class="form-group">
+                <label for="description">Giới thiệu truyện :</label>
+                <textarea rows="4" type="textarea" class="form-control" id="description" th:field="*{description}"
+                          playeholder="type here ..."/></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+
+    </div>
+</div>
